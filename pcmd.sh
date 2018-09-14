@@ -1,13 +1,13 @@
 #!/bin/ksh
 #
-# $Id: pcmd.sh,v 1.2 2018/09/14 15:21:11 hajime Exp $
+# $Id: pcmd.sh,v 1.3 2018/09/14 16:18:51 hajime Exp $
 #
 # pcmd.sh - show your permitted commands by /etc/doas.conf
 # Hajime Edakawa <hajime.edakawa@gmail.com>
 # Public Domain
 #
 # How to use:
-# 		$ set -A complete_doas -- $(pcmd.sh)
+# 		$ set -A complete_doas -- $(cmd.sh)
 #
 
 function pcmd {
@@ -40,11 +40,12 @@ function pcmd {
 					[[ $_id = @(0|[1-9]*([0-9])) ]]
 					_lists=$(( $? == true ? $(id -G) : \
 					    $(groups) ))
+					for _item in $_lists; do
+						[[ $_id = $_item ]] && \
+						    _cmds[${#_cmds[*]}]=$_cmd \
+						    && break
+					done
 				fi
-				for _item in $_lists; do
-					[[ $_id = $_item ]] && \
-					    _cmds[${#_cmds[*]}]=$_cmd && break
-				done
 			fi
 		fi
 	done <$_file
