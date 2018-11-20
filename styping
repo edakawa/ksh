@@ -1,16 +1,15 @@
 #!/bin/ksh
 
-# $Id: styping.sh,v 1.7 2018/11/19 12:16:58 hajime Exp $
-
 # styping.sh - a simple typing script.
 #
 # Author: Hajime Edakawa <hajime.edakawa@gmail.com>
 # License: Public Domain
 # Last Update: Nov, 2018
 
+########################
 # RANK
 # ------------- -------
-# TITLE         POINTS
+# TITLE         POINTS 
 # ------------- -------
 # Puffy         800-
 # Legend        768-799
@@ -38,198 +37,249 @@
 # D              64-95
 # E+             32-63
 # E               0-31
+########################
 
 #------------------------------------------------------------------------------
-set -A words "A goal without a plan is just a wish."                        \
-             "You have to study a great deal to know a little."             \
-             "There is always light behind the clouds."                     \
-             "He who moves not forward, goes backward."                     \
-             "Imagination means nothing without doing."                     \
-             "Make the most of yourself, for that is all there is of you."  \
-             "The roots of education are bitter, but the fruit is sweet."   \
-             "Nothing is a waste of time if you use the experience wisely." \
-             "Victory belongs to the most persevering."                     \
-             "The optimist sees the doughnut, the pessimist sees the hole." \
-             "Indecision is often worse than wrong action."                 \
-             "Don't find fault, find a remedy; anybody can complain."       \
-             "Never leave that till tomorrow which you can do today."       \
-             "Pleasure in the job puts perfection in the work."             \
-             "Quality means doing it right when no one is looking."         \
-             "The beginning is the most important part of the work."        \
-             "Laziness may appear attractive, but work gives satisfaction." \
-             "Work is a necessity for man. Man invented the alarm clock."   \
-             "I am not young enough to know everything."                    \
-             "It takes a long time to grow young."                          \
-             "In order to write about life, first you must live it!"        \
-             "It is not length of life, but depth of life."                 \
-             "Whether you believe you can do a thing or not, you are right."
+set -A words "The absent party is still faulty."                              \
+             "Acorns were good till bread was found."                         \
+             "Actions speak louder than words."                               \
+             "Barefooted men need not tread on thorns."                       \
+             "Be bold with what is your own."                                 \
+             "The bear wants a tail and cannnot be a lion."                   \
+             "The cat is hungry when a crust contents her."                   \
+             "Clothe thee in war, arm thee in peace."                         \
+             "Confidence is a plant of slow growth."                          \
+             "The day is short and the work is much."                         \
+             "Destroy the lion while he is yet but a whelp."                  \
+             "Dissembled sin is double wickedness."                           \
+             "Eat enough and it will make you wise."                          \
+             "Elbow grease gives the best polish."                            \
+             "Evil to him who evil thinks."                                   \
+             "The fisher stricken will be wise."                              \
+             "For a morning rain leave not your journey."                     \
+             "For one hair Martin lost his ass."                              \
+             "Girn when ye knit and laugh when ye loose."                     \
+             "Glowing coals sparkle often."                                   \
+             "A good dog never barked but a bone."                            \
+             "He loses indeed that loses at last."                            \
+             "Hope for the best and prepare for the worst."                   \
+             "Hunger is good kitchen meat."                                   \
+             "I know nothing except that I know not."                         \
+             "In all games it is good to leave off a winner."                 \
+             "Iron not used soon rusts."                                      \
+             "A jade eats as much as a good horse."                           \
+             "Jupiter himself cannot please all."                             \
+             "Justice is the best keeper of kings."                           \
+             "Keep something for the sore foot."                              \
+             "Kindness cannot stand aye on one side."                         \
+             "Kythe in your own colours, that folk may ken you."              \
+             "Labour as long lived, pray as even dying."                      \
+             "Little and often fills the purse."                              \
+             "Lucky men need no counsel."                                     \
+             "Make no fire, raise no smoke."                                  \
+             "Many dressers put the bride's dress out of order."              \
+             "Money is round and rolls away."                                 \
+             "Names and natures do aften agree."                              \
+             "Never answer a question until it is asked."                     \
+             "Nothing like being on the safe side."                           \
+             "One knave will favour another."                                 \
+             "One seldom loses by dealing with honest men."                   \
+             "Out of season, out of price."                                   \
+             "Penny and penny laid up will be many."                          \
+             "Poor and liberal, rich and covetous."                           \
+             "Put not good win into an ill bottle."                           \
+             "Quality, without quantity, is little thought of."               \
+             "Quick at meat quick at work."                                   \
+             "Quietness is a great treasure."                                 \
+             "The race is got by running."                                    \
+             "Ride softly that you may get home the sooner."                  \
+             "A rolling stone gathers no moss."                               \
+             "Sadness and gladness succeed each other."                       \
+             "Sleep without supping and wake without owing."                  \
+             "Sloth turns the edge of wit."                                   \
+             "There are wheels within wheels."                                \
+             "Though good be good, yet better is better."                     \
+             "Truth is stranger than fiction."                                \
+             "An unhappy man's cart is easy to tumble."                       \
+             "The unsonsy fish aye gets the unlucky bait."                    \
+             "The used key is always bright."                                 \
+             "Vainglory is a flower that bears no corn."                      \
+             "Venture a small fish to catch a great one."                     \
+             "Venture not all in one bottom."                                 \
+             "What is not wisdom is danger."                                  \
+             "When the cat's away the mice will play."                        \
+             "When the pot's full, it will boil over."                        \
+             "You cannot take trouts with dry breeches."                      \
+             "Youth's a stuff will not endure."                               \
+             "Yule is good on Yule even."
+
 #-------------------------------------------------------------------------------
 function usage {
-	echo "usage: ${progname} -q [-n number]\r"
-	exit 1
+        echo "usage: ${progname} -q [-n number]\r"
+        exit 1
 }
 
 function restore_stty_state {
-	stty ${_STTYSTATE}
-	tput cnorm
+        stty ${_STTYSTATE}
+        tput cnorm
 }
 #-------------------------------------------------------------------------------
 bc |&
 function start_sw {
-	_BEGIN=$(perl -MTime::HiRes=gettimeofday -e \
-	    '($sec,$micro)=gettimeofday; print sprintf("%d%06d",$sec,$micro);')
+        _BEGIN=$(perl -MTime::HiRes=gettimeofday -e \
+            '($sec,$micro)=gettimeofday; print sprintf("%d%06d",$sec,$micro);')
 }
 function stop_sw {
-	_END=$(perl -MTime::HiRes=gettimeofday -e \
+        _END=$(perl -MTime::HiRes=gettimeofday -e \
             '($sec,$micro)=gettimeofday; print sprintf("%d%06d",$sec,$micro);')
 }
 function calc_time {
-	print -p "scale=2;(${_END}-${_BEGIN})/1000000"
-	read -p _TIME
+        print -p "scale=2;(${_END}-${_BEGIN})/1000000"
+        read -p _TIME
 }
 function inc_keyhit {
-	(( _HIT++ ))
+        (( _HIT++ ))
 }
 function inc_keymiss {
-	(( _MISS++ ))
+        (( _MISS++ ))
 }
 function calc_wpm {
-	print -p "scale=2;(${_HIT}+${_MISS})/${_TIME}*60"
-	read -p _WPM
+        print -p "scale=2;(${_HIT}+${_MISS})/${_TIME}*60"
+        read -p _WPM
 }
 function calc_epm {
-	print -p "scale=2;${_MISS}/${_TIME}*60"
-	read -p _EPM
+        print -p "scale=2;${_MISS}/${_TIME}*60"
+        read -p _EPM
 }
 function calc_rate {
-	print -p "scale=2;${_HIT}/(${_HIT}+${_MISS})"
-	read -p _RATE
+        print -p "scale=2;${_HIT}/(${_HIT}+${_MISS})"
+        read -p _RATE
 }
 function calc_accuracy {
-	print -p "scale=2;${_RATE}*100"
-	read -p _ACCURACY
+        print -p "scale=2;${_RATE}*100"
+        read -p _ACCURACY
 }
 function calc_point {
-	print -p "${_WPM}*${_RATE}*${_RATE}*${_RATE}"
-	read -p _POINT
+        print -p "${_WPM}*${_RATE}*${_RATE}*${_RATE}"
+        read -p _POINT
 }
 function calc_rank {
-	local p=$(printf "%.0f" ${_POINT})
-	(( 800 <= p )) && _RANK="Puffy"         && return
-	(( 768 <= p )) && _RANK="Legend"        && return
-	(( 736 <= p )) && _RANK="Demigod"       && return
-	(( 704 <= p )) && _RANK="Sleipnir"      && return
-	(( 672 <= p )) && _RANK="Meteor"        && return
-	(( 640 <= p )) && _RANK="Railgun"       && return
-	(( 608 <= p )) && _RANK="RocketBooster" && return
-	(( 576 <= p )) && _RANK="Wizard"        && return
-	(( 544 <= p )) && _RANK="Hacker"        && return
-	(( 512 <= p )) && _RANK="UsainBolt"     && return
-	(( 480 <= p )) && _RANK="Ninja"         && return
-	(( 448 <= p )) && _RANK="Falcon"        && return
-	(( 416 <= p )) && _RANK="Master"        && return
-	(( 384 <= p )) && _RANK="S++"           && return
-	(( 352 <= p )) && _RANK="S+"            && return
-	(( 320 <= p )) && _RANK="S"             && return
-	(( 288 <= p )) && _RANK="A+"            && return
-	(( 256 <= p )) && _RANK="A"             && return
-	(( 224 <= p )) && _RANK="B+"            && return
-	(( 192 <= p )) && _RANK="B"             && return
-	(( 160 <= p )) && _RANK="C+"            && return
-	(( 128 <= p )) && _RANK="C"             && return
-	((  96 <= p )) && _RANK="D+"            && return
-	((  64 <= p )) && _RANK="D"             && return
-	((  32 <= p )) && _RANK="E+"            && return
-	((   0 <= p )) && _RANK="E"             && return
+        local p=$(printf "%.0f" ${_POINT})
+        (( 800 <= p )) && _RANK="Puffy"         && return
+        (( 768 <= p )) && _RANK="Legend"        && return
+        (( 736 <= p )) && _RANK="Demigod"       && return
+        (( 704 <= p )) && _RANK="Sleipnir"      && return
+        (( 672 <= p )) && _RANK="Meteor"        && return
+        (( 640 <= p )) && _RANK="Railgun"       && return
+        (( 608 <= p )) && _RANK="RocketBooster" && return
+        (( 576 <= p )) && _RANK="Wizard"        && return
+        (( 544 <= p )) && _RANK="Hacker"        && return
+        (( 512 <= p )) && _RANK="UsainBolt"     && return
+        (( 480 <= p )) && _RANK="Ninja"         && return
+        (( 448 <= p )) && _RANK="Falcon"        && return
+        (( 416 <= p )) && _RANK="Master"        && return
+        (( 384 <= p )) && _RANK="S++"           && return
+        (( 352 <= p )) && _RANK="S+"            && return
+        (( 320 <= p )) && _RANK="S"             && return
+        (( 288 <= p )) && _RANK="A+"            && return
+        (( 256 <= p )) && _RANK="A"             && return
+        (( 224 <= p )) && _RANK="B+"            && return
+        (( 192 <= p )) && _RANK="B"             && return
+        (( 160 <= p )) && _RANK="C+"            && return
+        (( 128 <= p )) && _RANK="C"             && return
+        ((  96 <= p )) && _RANK="D+"            && return
+        ((  64 <= p )) && _RANK="D"             && return
+        ((  32 <= p )) && _RANK="E+"            && return
+        ((   0 <= p )) && _RANK="E"             && return
 }
 function show_score {
-	local line="$1"
+        local line="$1"
 
-	tput cup $line 0 && (( line++ ))
-	printf "%s" $(perl -E 'say "-" x 80')
-	tput cup $line 0 && (( line++ ))
-	printf "SCORE\t\t%.0f point" ${_POINT}
-	tput cup $line 0 && (( line++ ))
-	printf "RANK\t\t%s" ${_RANK}
-	tput cup $line 0 && (( line++ ))
-	printf "TIME\t\t%.2f sec" ${_TIME}
-	tput cup $line 0 && (( line++ ))
-	printf "HIT\t\t%d" ${_HIT}
-	tput cup $line 0 && (( line++ ))
-	printf "MISS\t\t%d" ${_MISS}
-	tput cup $line 0 && (( line++ ))
-	printf "ACCURACY\t%.1f%%" ${_ACCURACY}
-	tput cup $line 0 && (( line++ ))
-	printf "WPM\t\t%.1f" ${_WPM}
-	tput cup $line 0 && (( line++ ))
-	printf "EPM\t\t%.1f" ${_EPM}
+        tput cup $line 0 && (( line++ ))
+        printf "%s" $(perl -E 'say "-" x 80')
+        tput cup $line 0 && (( line++ ))
+        printf "SCORE\t\t%.0f point" ${_POINT}
+        tput cup $line 0 && (( line++ ))
+        printf "RANK\t\t%s" ${_RANK}
+        tput cup $line 0 && (( line++ ))
+        printf "TIME\t\t%.2f sec" ${_TIME}
+        tput cup $line 0 && (( line++ ))
+        printf "HIT\t\t%d" ${_HIT}
+        tput cup $line 0 && (( line++ ))
+        printf "MISS\t\t%d" ${_MISS}
+        tput cup $line 0 && (( line++ ))
+        printf "ACCURACY\t%.1f%%" ${_ACCURACY}
+        tput cup $line 0 && (( line++ ))
+        printf "WPM\t\t%.1f" ${_WPM}
+        tput cup $line 0 && (( line++ ))
+        printf "EPM\t\t%.1f" ${_EPM}
 }
 #-------------------------------------------------------------------------------
 function main {
-	integer num=5
-	integer i
-	local hist	
-	local quit=0
+        integer num=5
+        integer i
+        local hist      
+        local quit=0
 
-	while getopts :n:q opt; do
-		case ${opt} in
-			n) num="$OPTARG" ;;
-			q) quit=1        ;;
-			*) usage         ;;
-		esac
-	done
-	shift $(( OPTIND-1 ))
+        while getopts :n:q opt; do
+                case ${opt} in
+                        n) num="$OPTARG" ;;
+                        q) quit=1        ;;
+                        *) usage         ;;
+                esac
+        done
+        shift $(( OPTIND-1 ))
 
-	if [[ ${quit} == 0 ]]; then
-		clear
-		for i in 3 2 1; do
-			tput cup 0 0
-			print "# key to exit / ${i}..."
-			sleep 1
-		done
-	fi
+        if [[ ${quit} == 0 ]]; then
+                clear
+                for i in 3 2 1; do
+                        tput cup 0 0
+                        print "# key to exit / ${i}..."
+                        sleep 1
+                done
+        fi
 
-	clear
-	start_sw
-	for i in $(jot $num); do
-		local word="${words[RANDOM%${#words[*]}]}"
-		local ch
-		local len
-		hist[${#hist[*]}]="${word}"
-		while (( ${#word} > 0 )); do
-			clear
-			tput cup 0 0
-			printf "[%2d/%2d] :$word" ${i} ${num}
-			ch=$(dd bs=1 count=1 2>/dev/null)
-			[[ $ch == "#" ]] && return
-			len=${#word}
-			word=${word#$ch}
-			(( ${#word} == 0 )) && inc_keyhit && break
-			if (( len != ${#word} )); then
-				inc_keyhit
-			else
-				inc_keymiss
-			fi
-		done
-	done
-	stop_sw
+        clear
+        start_sw
+        for i in $(jot $num); do
+                local word="${words[RANDOM%${#words[*]}]}"
+                local ch
+                local len
+                hist[${#hist[*]}]="${word}"
+                while (( ${#word} > 0 )); do
+                        clear
+                        tput cup 0 0
+                        printf "[%2d/%2d] :%s" ${i} ${num} "${word}"
+                        ch=$(dd bs=1 count=1 2>/dev/null)
+                        [[ $ch == "#" ]] && return
+                        len=${#word}
+                        word=${word#$ch}
+                        (( ${#word} == 0 )) && inc_keyhit && break
+                        if (( len != ${#word} )); then
+                                inc_keyhit
+                        else
+                                inc_keymiss
+                        fi
+                done
+        done
+        stop_sw
 
-	clear
-	for i in $(jot ${#hist[*]} 0); do
-		tput cup ${i} 0
-		printf "[%2d/%2d] %s" $(( i + 1 )) $num "${hist[i]}"
-	done
+        clear
+        for i in $(jot ${#hist[*]} 0); do
+                tput cup ${i} 0
+                printf "[%2d/%2d] %s" $(( i + 1 )) $num "${hist[i]}"
+        done
 
-	calc_time
-	calc_wpm
-	calc_epm
-	calc_rate
-	calc_accuracy
-	calc_point
-	calc_rank
-	show_score ${#hist[*]}
+        calc_time
+        calc_wpm
+        calc_epm
+        calc_rate
+        calc_accuracy
+        calc_point
+        calc_rank
+        show_score ${#hist[*]}
 
-	print "\r"
+        print "\r"
 }
 #-------------------------------------------------------------------------------
 _BEGIN=false
