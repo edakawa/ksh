@@ -79,6 +79,7 @@ set -A sutra "\0350\0210\0254" "\0350\0213\0245" "\0345\0277\0203" \
 function restore {
         tput cnorm
 	reset_fcolor
+	reset_bcolor
 	tput cup $H 0
 	exit
 }
@@ -90,6 +91,15 @@ function set_fcolor {
 
 function reset_fcolor {
         print -n "\033[39m"
+}
+
+function set_bcolor {
+        local n=${1:-0}
+        (( 0 <= n && n <= 255 )) && print -n "\033[48;5;${n}m"
+}
+
+function reset_bcolor {
+        print -n "\033[49m"
 }
 
 function draw_with_box {
@@ -142,6 +152,7 @@ function draw_with_box {
 			if (( inside == 1 )); then
 				t=${sutra[RANDOM%${#sutra}]}
 	                        set_fcolor "${rot[y-1]%%:*}"
+				set_bcolor "${BLACK}"
 				print -n "${t}"
 				reset_fcolor
  				rot[y-1]=${rot[y-1]#*:}
